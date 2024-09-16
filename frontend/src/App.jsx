@@ -6,12 +6,12 @@ import Layout from "./pages/Layout"
 import Home from "./components/Home";
 import Projects from "./components/Projects";
 import Templates from "./components/Templates";
-
+import CreateDesign from "./components/CreateDesign";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
-    children : [
+    children: [
       {
         path: '/',
         element: <Home />
@@ -25,6 +25,10 @@ const router = createBrowserRouter([
         element: <Templates />
       },
     ]
+  },
+  {
+    path: "/design/create",
+    element: <CreateDesign />
   }
 ])
 
