@@ -18,7 +18,7 @@ const Layout = () => {
               />
             </div>
             <div className="flex gap-4 justify-center items-center relative">
-              <button className="py-2 px-6 overflow-hidden text-center bg-[#e9e8eb] text-black font-bold rounded-[5px] hover:bg-purple-600 hover:text-white">
+              <button className="py-2 px-6 overflow-hidden text-center bg-[#e9e8eb] text-black font-bold rounded-[3px] hover:bg-purple-600 hover:text-white">
                 Create a Design
               </button>
               <div onClick={() => setShow(!show)} className="cursor-pointer">
