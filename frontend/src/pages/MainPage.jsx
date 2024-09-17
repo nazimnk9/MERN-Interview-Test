@@ -17,6 +17,7 @@ const MainPage = () => {
   const [current_component, setCurrentComponent] = useState("");
   const [color, setColor] = useState("");
   const [image, setImage] = useState("");
+  const [rotate, setRotate] = useState(0);
   const [show, setShow] = useState({
     status: true,
     name: "",
@@ -55,6 +56,22 @@ const MainPage = () => {
       setCurrentComponent: (a) => setCurrentComponent(a),
     },
   ]);
+
+  const createShape = (name,type)=>{
+    const style = {
+      id: components.length + 1,
+      name: name,
+      type,
+      left: 10,
+      top: 10,
+      opacity: 1,
+      width: 200,
+      height: 150,
+      rotate,
+      z_index: 2,
+      color: "#3c3c3d",
+    }
+  }
 
   const removeComponent = () => {
     console.log("removeComponent");
@@ -188,9 +205,9 @@ const MainPage = () => {
             )}
             {state === "shape" && (
               <div className="grid grid-cols-3 gap-2">
-                <div className="h-[90px] bg-[#3c3c3d] cursor-pointer"></div>
-                <div className="h-[90px] bg-[#3c3c3d] cursor-pointer rounded-full"></div>
-                <div
+                <div onClick={()=>createShape('shape','rectangle')} className="h-[90px] bg-[#3c3c3d] cursor-pointer"></div>
+                <div onClick={()=>createShape('shape','circle')} className="h-[90px] bg-[#3c3c3d] cursor-pointer rounded-full"></div>
+                <div onClick={()=>createShape('shape','triangle')}
                   style={{ clipPath: "polygon(50% 0,100% 100%,0 100%)" }}
                   className="h-[90px] bg-[#3c3c3d] cursor-pointer"
                 ></div>
