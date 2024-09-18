@@ -255,8 +255,8 @@ const MainPage = () => {
           <div className="w-full flex h-full">
             <div
               className={`flex justify-center relative items-center h-full ${!current_component
-                  ? "w-full"
-                  : "w-[calc(100%-250px)] overflow-hidden"
+                ? "w-full"
+                : "w-[calc(100%-250px)] overflow-hidden"
                 }`}
             >
               <div className="m-w-[650px] m-h-[480px] flex justify-center items-center overflow-hidden">
@@ -284,9 +284,9 @@ const MainPage = () => {
                       className="w-[30px] h-[30px] cursor-pointer rounded-sm"
                       style={{
                         background: `${current_component.color &&
-                            current_component.color !== "#fff"
-                            ? current_component.color
-                            : "gray"
+                          current_component.color !== "#fff"
+                          ? current_component.color
+                          : "gray"
                           }`,
                       }}
                       htmlFor="color"
