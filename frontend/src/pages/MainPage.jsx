@@ -43,6 +43,21 @@ const MainPage = () => {
     console.log("rotateElement");
   };
 
+  const removeComponent = (id) => {
+    const temp = components.filter((c) => c.id !== id);
+    setCurrentComponent("")
+    setComponents(temp)
+  };
+
+  const remove_background = () => {
+    //console.log("remove_background");
+    const comp = components.find((c) => c.id === current_component.id);
+    const temp = components.filter((c) => c.id !== current_component.id);
+    comp.image = "";
+    setImage("");
+    setComponents([...temp, comp]);
+  };
+
   const [components, setComponents] = useState([
     {
       name: "main_frame",
@@ -57,7 +72,7 @@ const MainPage = () => {
     },
   ]);
 
-  const createShape = (name,type)=>{
+  const createShape = (name, type) => {
     const style = {
       id: components.length + 1,
       name: name,
@@ -70,20 +85,14 @@ const MainPage = () => {
       rotate,
       z_index: 2,
       color: "#3c3c3d",
+      setCurrentComponent: (a) => setCurrentComponent(a),
+      remove_background: () => setImage(''),
+      moveElement,
+      resizeElement,
+      rotateElement,
     }
+    setComponents([...components, style])
   }
-
-  const removeComponent = () => {
-    console.log("removeComponent");
-  };
-  const remove_background = () => {
-    //console.log("remove_background");
-    const comp = components.find((c) => c.id === current_component.id);
-    const temp = components.filter((c) => c.id !== current_component.id);
-    comp.image = "";
-    setImage("");
-    setComponents([...temp, comp]);
-  };
 
   //console.log(current_component);
   useEffect(() => {
@@ -108,9 +117,8 @@ const MainPage = () => {
         <div className="w-[120px] bg-[#181918] z-50 h-full text-white overflow-y-auto scrollbar-hide">
           <div
             onClick={() => setElements("design", "design")}
-            className={`${
-              show.name === "design" ? "bg-[#252627]" : ""
-            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${show.name === "design" ? "bg-[#252627]" : ""
+              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <BsGrid1X2 />
@@ -119,9 +127,8 @@ const MainPage = () => {
           </div>
           <div
             onClick={() => setElements("shape", "shape")}
-            className={`${
-              show.name === "shape" ? "bg-[#252627]" : ""
-            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${show.name === "shape" ? "bg-[#252627]" : ""
+              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <FaShapes />
@@ -130,9 +137,8 @@ const MainPage = () => {
           </div>
           <div
             onClick={() => setElements("image", "uploadImage")}
-            className={`${
-              show.name === "uploadImage" ? "bg-[#252627]" : ""
-            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${show.name === "uploadImage" ? "bg-[#252627]" : ""
+              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <FaCloudUploadAlt />
@@ -141,9 +147,8 @@ const MainPage = () => {
           </div>
           <div
             onClick={() => setElements("text", "text")}
-            className={`${
-              show.name === "text" ? "bg-[#252627]" : ""
-            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${show.name === "text" ? "bg-[#252627]" : ""
+              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <TfiText />
@@ -152,9 +157,8 @@ const MainPage = () => {
           </div>
           <div
             onClick={() => setElements("project", "projects")}
-            className={`${
-              show.name === "projects" ? "bg-[#252627]" : ""
-            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${show.name === "projects" ? "bg-[#252627]" : ""
+              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <BsFolder />
@@ -163,9 +167,8 @@ const MainPage = () => {
           </div>
           <div
             onClick={() => setElements("initImage", "images")}
-            className={`${
-              show.name === "images" ? "bg-[#252627]" : ""
-            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${show.name === "images" ? "bg-[#252627]" : ""
+              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <BsFillImageFill />
@@ -174,9 +177,8 @@ const MainPage = () => {
           </div>
           <div
             onClick={() => setElements("background", "background")}
-            className={`${
-              show.name === "background" ? "bg-[#252627]" : ""
-            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${show.name === "background" ? "bg-[#252627]" : ""
+              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <RxTransparencyGrid />
@@ -186,9 +188,8 @@ const MainPage = () => {
         </div>
         <div className="h-full w-[calc(100%-75px)]">
           <div
-            className={`${
-              show.status ? "p-0 -left-[350px]" : "px-8 left-[100px] py-5"
-            } bg-[#252627] h-full fixed transition-all w-[350px] z-30 duration-700`}
+            className={`${show.status ? "p-0 -left-[350px]" : "px-8 left-[100px] py-5"
+              } bg-[#252627] h-full fixed transition-all w-[350px] z-30 duration-700`}
           >
             <div
               onClick={() => setShow({ name: "", status: true })}
@@ -205,9 +206,9 @@ const MainPage = () => {
             )}
             {state === "shape" && (
               <div className="grid grid-cols-3 gap-2">
-                <div onClick={()=>createShape('shape','rectangle')} className="h-[90px] bg-[#3c3c3d] cursor-pointer"></div>
-                <div onClick={()=>createShape('shape','circle')} className="h-[90px] bg-[#3c3c3d] cursor-pointer rounded-full"></div>
-                <div onClick={()=>createShape('shape','triangle')}
+                <div onClick={() => createShape('shape', 'rectangle')} className="h-[90px] bg-[#3c3c3d] cursor-pointer"></div>
+                <div onClick={() => createShape('shape', 'circle')} className="h-[90px] bg-[#3c3c3d] cursor-pointer rounded-full"></div>
+                <div onClick={() => createShape('shape', 'triangle')}
                   style={{ clipPath: "polygon(50% 0,100% 100%,0 100%)" }}
                   className="h-[90px] bg-[#3c3c3d] cursor-pointer"
                 ></div>
@@ -253,11 +254,10 @@ const MainPage = () => {
           </div>
           <div className="w-full flex h-full">
             <div
-              className={`flex justify-center relative items-center h-full ${
-                !current_component
+              className={`flex justify-center relative items-center h-full ${!current_component
                   ? "w-full"
                   : "w-[calc(100%-250px)] overflow-hidden"
-              }`}
+                }`}
             >
               <div className="m-w-[650px] m-h-[480px] flex justify-center items-center overflow-hidden">
                 <div
@@ -283,12 +283,11 @@ const MainPage = () => {
                     <label
                       className="w-[30px] h-[30px] cursor-pointer rounded-sm"
                       style={{
-                        background: `${
-                          current_component.color &&
-                          current_component.color !== "#fff"
+                        background: `${current_component.color &&
+                            current_component.color !== "#fff"
                             ? current_component.color
                             : "gray"
-                        }`,
+                          }`,
                       }}
                       htmlFor="color"
                     ></label>
