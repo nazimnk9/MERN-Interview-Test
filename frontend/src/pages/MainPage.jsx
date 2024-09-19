@@ -208,6 +208,7 @@ const MainPage = () => {
       }
       //setComponents([...temp, components[index]])
       setComponents([...temp, components[index]]);
+      setColor("")
       setWidth("");
       setHeight("");
       setTop("");
