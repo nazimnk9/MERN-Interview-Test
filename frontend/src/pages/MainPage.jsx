@@ -27,6 +27,7 @@ const MainPage = () => {
   const [padding, setPadding] = useState("");
   const [font, setFont] = useState("");
   const [weight, setWeight] = useState("");
+  const [text, setText] = useState("");
   const [show, setShow] = useState({
     status: true,
     name: "",
@@ -233,6 +234,7 @@ const MainPage = () => {
         components[index].font = font || current_component.font;
         components[index].padding = padding || current_component.padding;
         components[index].weight = weight || current_component.weight;
+        components[index].title = text || current_component.title;
       }
       if (current_component.name === "main_frame" && image) {
         //console.log(image);
@@ -257,8 +259,9 @@ const MainPage = () => {
       setRotate(0);
       setOpacity("");
       setzIndex("");
+      setText("");
     }
-  }, [color, image, left, top, width, height, opacity, zIndex, padding, font, weight]);
+  }, [color, image, left, top, width, height, opacity, zIndex, padding, font, weight, text]);
 
   return (
     <div className="min-w-screen h-screen bg-black">
@@ -488,6 +491,14 @@ const MainPage = () => {
                           <div className="flex gap-1 justify-start items-start">
                             <span className="text-md w-[72px]">Font Weight: </span>
                             <input onChange={(e) => setWeight(parseInt(e.target.value))} className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md" type="number" step={100} min={100} max={900} value={current_component.weight} />
+                          </div>
+
+                          <div className="flex gap-2 flex-col justify-start items-start">
+                            <input onChange={(e) => setCurrentComponent({
+                              ...current_component,
+                              title: e.target.value
+                            })} className="border border-gray-700 bg-transparent outline-none p-2 rounded-md" type="text" value={current_component.title} />
+                            <button onClick={() => setText(current_component.title)} className="px-4 py-2 bg-blue-500 text-xs text-white rounded-sm">Add</button>
                           </div>
                         </>
                       }
