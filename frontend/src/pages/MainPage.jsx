@@ -97,8 +97,40 @@ const MainPage = () => {
     window.addEventListener("mouseup", mouseUp);
   };
 
-  const rotateElement = () => {
-    console.log("rotateElement");
+  const rotateElement = (id, currentInfo) => {
+    setCurrentComponent("");
+    setCurrentComponent(currentInfo);
+    const target = document.getElementById(id)
+    const mouseMove = ({ movementX, movementY }) => {
+      const getStyle = window.getComputedStyle(target)
+      const transform = getStyle.transform
+      //console.log(transform);
+      const values = transform.split("(")[1].split(")")[0].split(",")
+      //console.log(values);
+      const angle = Math.round(Math.atan2(values[1], values[0]) * (180 / Math.PI))
+      //console.log(angle);
+      let deg = angle < 0 ? angle + 360 : angle
+      if (movementX) {
+        deg = deg + movementX
+      }
+      target.style.transform = `rotate(${deg}deg)`
+
+    }
+    const mouseUp = (e) => {
+      window.removeEventListener("mousemove", mouseMove);
+      window.removeEventListener("mouseup", mouseUp);
+      const getStyle = window.getComputedStyle(target)
+      const transform = getStyle.transform
+      //console.log(transform);
+      const values = transform.split("(")[1].split(")")[0].split(",")
+      //console.log(values);
+      const angle = Math.round(Math.atan2(values[1], values[0]) * (180 / Math.PI))
+      //console.log(angle);
+      let deg = angle < 0 ? angle + 360 : angle
+      setRotate(deg)
+    }
+    window.addEventListener("mousemove", mouseMove);
+    window.addEventListener("mouseup", mouseUp);
   };
 
   const removeComponent = (id) => {
@@ -161,6 +193,7 @@ const MainPage = () => {
       if (current_component.name !== "text") {
         components[index].width = width || current_component.width;
         components[index].height = height || current_component.height;
+        components[index].rotate = rotate || current_component.rotate;
       }
       if (current_component.name === "main_frame" && image) {
         //console.log(image);
@@ -171,6 +204,7 @@ const MainPage = () => {
         //console.log(image);
         components[index].left = left || current_component.left;
         components[index].top = top || current_component.top;
+        //components[index].rotate = rotate || current_component.rotate;
       }
       //setComponents([...temp, components[index]])
       setComponents([...temp, components[index]]);
@@ -178,6 +212,7 @@ const MainPage = () => {
       setHeight("");
       setTop("");
       setLeft("");
+      setRotate(0);
     }
   }, [color, image, left, top, width, height]);
 
@@ -188,9 +223,8 @@ const MainPage = () => {
         <div className="w-[120px] bg-[#181918] z-50 h-full text-white overflow-y-auto scrollbar-hide">
           <div
             onClick={() => setElements("design", "design")}
-            className={`${
-              show.name === "design" ? "bg-[#252627]" : ""
-            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${show.name === "design" ? "bg-[#252627]" : ""
+              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <BsGrid1X2 />
@@ -199,9 +233,8 @@ const MainPage = () => {
           </div>
           <div
             onClick={() => setElements("shape", "shape")}
-            className={`${
-              show.name === "shape" ? "bg-[#252627]" : ""
-            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${show.name === "shape" ? "bg-[#252627]" : ""
+              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <FaShapes />
@@ -210,9 +243,8 @@ const MainPage = () => {
           </div>
           <div
             onClick={() => setElements("image", "uploadImage")}
-            className={`${
-              show.name === "uploadImage" ? "bg-[#252627]" : ""
-            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${show.name === "uploadImage" ? "bg-[#252627]" : ""
+              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <FaCloudUploadAlt />
@@ -221,9 +253,8 @@ const MainPage = () => {
           </div>
           <div
             onClick={() => setElements("text", "text")}
-            className={`${
-              show.name === "text" ? "bg-[#252627]" : ""
-            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${show.name === "text" ? "bg-[#252627]" : ""
+              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <TfiText />
@@ -232,9 +263,8 @@ const MainPage = () => {
           </div>
           <div
             onClick={() => setElements("project", "projects")}
-            className={`${
-              show.name === "projects" ? "bg-[#252627]" : ""
-            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${show.name === "projects" ? "bg-[#252627]" : ""
+              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <BsFolder />
@@ -243,9 +273,8 @@ const MainPage = () => {
           </div>
           <div
             onClick={() => setElements("initImage", "images")}
-            className={`${
-              show.name === "images" ? "bg-[#252627]" : ""
-            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${show.name === "images" ? "bg-[#252627]" : ""
+              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <BsFillImageFill />
@@ -254,9 +283,8 @@ const MainPage = () => {
           </div>
           <div
             onClick={() => setElements("background", "background")}
-            className={`${
-              show.name === "background" ? "bg-[#252627]" : ""
-            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${show.name === "background" ? "bg-[#252627]" : ""
+              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <RxTransparencyGrid />
@@ -266,9 +294,8 @@ const MainPage = () => {
         </div>
         <div className="h-full w-[calc(100%-75px)]">
           <div
-            className={`${
-              show.status ? "p-0 -left-[350px]" : "px-8 left-[100px] py-5"
-            } bg-[#252627] h-full fixed transition-all w-[350px] z-30 duration-700`}
+            className={`${show.status ? "p-0 -left-[350px]" : "px-8 left-[100px] py-5"
+              } bg-[#252627] h-full fixed transition-all w-[350px] z-30 duration-700`}
           >
             <div
               onClick={() => setShow({ name: "", status: true })}
@@ -340,11 +367,10 @@ const MainPage = () => {
           </div>
           <div className="w-full flex h-full">
             <div
-              className={`flex justify-center relative items-center h-full ${
-                !current_component
+              className={`flex justify-center relative items-center h-full ${!current_component
                   ? "w-full"
                   : "w-[calc(100%-250px)] overflow-hidden"
-              }`}
+                }`}
             >
               <div className="m-w-[650px] m-h-[480px] flex justify-center items-center overflow-hidden">
                 <div
@@ -370,12 +396,11 @@ const MainPage = () => {
                     <label
                       className="w-[30px] h-[30px] cursor-pointer rounded-sm"
                       style={{
-                        background: `${
-                          current_component.color &&
-                          current_component.color !== "#fff"
+                        background: `${current_component.color &&
+                            current_component.color !== "#fff"
                             ? current_component.color
                             : "gray"
-                        }`,
+                          }`,
                       }}
                       htmlFor="color"
                     ></label>
