@@ -22,6 +22,7 @@ const MainPage = () => {
   const [top, setTop] = useState("");
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
+  const [opacity, setOpacity] = useState("");
   const [padding, setPadding] = useState("");
   const [font, setFont] = useState("");
   const [weight, setWeight] = useState("");
@@ -151,6 +152,10 @@ const MainPage = () => {
     setComponents([...temp, comp]);
   };
 
+  const opacityHandle = (e) => {
+    setOpacity(parseFloat(e.target.value))
+  }
+
   const [components, setComponents] = useState([
     {
       name: "main_frame",
@@ -232,6 +237,7 @@ const MainPage = () => {
         //console.log(image);
         components[index].left = left || current_component.left;
         components[index].top = top || current_component.top;
+        components[index].opacity = opacity || current_component.opacity;
         //components[index].rotate = rotate || current_component.rotate;
       }
       //setComponents([...temp, components[index]])
@@ -242,8 +248,9 @@ const MainPage = () => {
       setTop("");
       setLeft("");
       setRotate(0);
+      setOpacity("");
     }
-  }, [color, image, left, top, width, height]);
+  }, [color, image, left, top, width, height, opacity]);
 
   return (
     <div className="min-w-screen h-screen bg-black">
@@ -450,6 +457,14 @@ const MainPage = () => {
                       </button>
                     </div>
                   )}
+                  {
+                    current_component.name !== "main_frame" && <div className="flex gap-3 flex-col">
+                      <div className="flex gap-1 justify-start items-start">
+                        <span className="text-md w-[70px]">Opacity: </span>
+                        <input onChange={opacityHandle} className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md" type="number" step={0.1} min={0.1} max={1} value={current_component.opacity} />
+                      </div>
+                    </div>
+                  }
                 </div>
               </div>
             )}
