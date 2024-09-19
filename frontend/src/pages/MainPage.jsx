@@ -23,6 +23,7 @@ const MainPage = () => {
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   const [opacity, setOpacity] = useState("");
+  const [zIndex, setzIndex] = useState("");
   const [padding, setPadding] = useState("");
   const [font, setFont] = useState("");
   const [weight, setWeight] = useState("");
@@ -238,6 +239,7 @@ const MainPage = () => {
         components[index].left = left || current_component.left;
         components[index].top = top || current_component.top;
         components[index].opacity = opacity || current_component.opacity;
+        components[index].z_index = zIndex || current_component.z_index;
         //components[index].rotate = rotate || current_component.rotate;
       }
       //setComponents([...temp, components[index]])
@@ -249,8 +251,9 @@ const MainPage = () => {
       setLeft("");
       setRotate(0);
       setOpacity("");
+      setzIndex("");
     }
-  }, [color, image, left, top, width, height, opacity]);
+  }, [color, image, left, top, width, height, opacity, zIndex]);
 
   return (
     <div className="min-w-screen h-screen bg-black">
@@ -426,8 +429,8 @@ const MainPage = () => {
             </div>
             {current_component && (
               <div className="h-full w-[250px] text-gray-300 bg-[#252627] px-3 py-2">
-                <div className="flex gap-3 flex-col items-start h-full px-3 justify-start">
-                  <div className="flex gap-4 justify-start items-start">
+                <div className="flex gap-6 flex-col items-start h-full px-3 justify-start">
+                  <div className="flex gap-4 justify-start items-start mt-4">
                     <span>Color: </span>
                     <label
                       className="w-[30px] h-[30px] cursor-pointer rounded-sm"
@@ -458,10 +461,14 @@ const MainPage = () => {
                     </div>
                   )}
                   {
-                    current_component.name !== "main_frame" && <div className="flex gap-3 flex-col">
+                    current_component.name !== "main_frame" && <div className="flex gap-6 flex-col">
                       <div className="flex gap-1 justify-start items-start">
                         <span className="text-md w-[70px]">Opacity: </span>
                         <input onChange={opacityHandle} className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md" type="number" step={0.1} min={0.1} max={1} value={current_component.opacity} />
+                      </div>
+                      <div className="flex gap-1 justify-start items-start">
+                        <span className="text-md w-[70px]">Z-index: </span>
+                        <input onChange={(e) => setzIndex(parseInt(e.target.value))} className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md" type="number" step={1} value={current_component.z_index} />
                       </div>
                     </div>
                   }
