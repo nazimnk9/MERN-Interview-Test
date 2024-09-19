@@ -22,6 +22,9 @@ const MainPage = () => {
   const [top, setTop] = useState("");
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
+  const [padding, setPadding] = useState("");
+  const [font, setFont] = useState("");
+  const [weight, setWeight] = useState("");
   const [show, setShow] = useState({
     status: true,
     name: "",
@@ -176,13 +179,38 @@ const MainPage = () => {
       z_index: 2,
       color: "#3c3c3d",
       setCurrentComponent: (a) => setCurrentComponent(a),
-      remove_background: () => setImage(""),
       moveElement,
       resizeElement,
-      rotateElement,
+      rotateElement
     };
     setComponents([...components, style]);
   };
+
+  const add_text = (name, type) => {
+    const style = {
+      id: components.length + 1,
+      name: name,
+      type,
+      left: 10,
+      top: 10,
+      opacity: 1,
+      rotate,
+      z_index: 10,
+      padding: 6,
+      font: 22,
+      title: "Add text",
+      weight: 400,
+      color: "#3c3c3d",
+      setCurrentComponent: (a) => setCurrentComponent(a),
+      moveElement,
+      resizeElement,
+      rotateElement
+    }
+    setWeight("")
+    setFont("")
+    setCurrentComponent(style)
+    setComponents([...components, style])
+  }
 
   //console.log(current_component);
   useEffect(() => {
@@ -332,7 +360,7 @@ const MainPage = () => {
             {state === "text" && (
               <div>
                 <div className="grid grid-cols-1 gap-2">
-                  <div className="bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm text-center">
+                  <div onClick={() => add_text("text", "title")} className="bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm text-center">
                     <h2>ADD TEXT</h2>
                   </div>
                 </div>
@@ -369,8 +397,8 @@ const MainPage = () => {
           <div className="w-full flex h-full">
             <div
               className={`flex justify-center relative items-center h-full ${!current_component
-                  ? "w-full"
-                  : "w-[calc(100%-250px)] overflow-hidden"
+                ? "w-full"
+                : "w-[calc(100%-250px)] overflow-hidden"
                 }`}
             >
               <div className="m-w-[650px] m-h-[480px] flex justify-center items-center overflow-hidden">
@@ -398,9 +426,9 @@ const MainPage = () => {
                       className="w-[30px] h-[30px] cursor-pointer rounded-sm"
                       style={{
                         background: `${current_component.color &&
-                            current_component.color !== "#fff"
-                            ? current_component.color
-                            : "gray"
+                          current_component.color !== "#fff"
+                          ? current_component.color
+                          : "gray"
                           }`,
                       }}
                       htmlFor="color"
