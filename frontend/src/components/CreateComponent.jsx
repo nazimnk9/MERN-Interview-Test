@@ -173,6 +173,7 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
       >
         <Element id={randValue} info={info} exId={`${randValue}img`} />
         <div
+          className="overflow-hidden"
           id={`${randValue}img`}
           style={{
             width: info.width + "px",

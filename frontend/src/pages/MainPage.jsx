@@ -263,6 +263,10 @@ const MainPage = () => {
         components[index].weight = weight || current_component.weight;
         components[index].title = text || current_component.title;
       }
+      if (current_component.name === "image") {
+        //console.log(image);
+        components[index].radius = radius || current_component.radius;
+      }
       if (current_component.name === "main_frame" && image) {
         //console.log(image);
         components[index].image = image || current_component.image;
@@ -301,6 +305,7 @@ const MainPage = () => {
     font,
     weight,
     text,
+    radius,
   ]);
 
   return (
@@ -545,6 +550,20 @@ const MainPage = () => {
                           value={current_component.z_index}
                         />
                       </div>
+                      {current_component.name === "image" && (
+                        <div className="flex gap-1 justify-start items-start">
+                          <span className="text-md w-[70px]">Radius: </span>
+                          <input
+                            onChange={(e) =>
+                              setRadius(parseInt(e.target.value))
+                            }
+                            className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
+                            type="number"
+                            step={1}
+                            value={current_component.radius}
+                          />
+                        </div>
+                      )}
                       {current_component.name === "text" && (
                         <>
                           <div className="flex gap-1 justify-start items-start">
