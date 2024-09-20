@@ -140,7 +140,49 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
         className="absolute group hover:border-[2px] hover:border-purple-500"
       >
         <Element id={randValue} info={info} exId="" />
-        <h2 style={{ fontSize: info.font + "px", fontWeight: info.weight }} className="w-full h-full">{info.title}</h2>
+        <h2
+          style={{ fontSize: info.font + "px", fontWeight: info.weight }}
+          className="w-full h-full"
+        >
+          {info.title}
+        </h2>
+        {current_component.id === info.id && (
+          <div
+            onClick={() => removeComponent(info.id)}
+            className="px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md"
+          >
+            <BsTrash />
+          </div>
+        )}
+      </div>
+    );
+  }
+  if (info.name === "image") {
+    html = (
+      <div
+        id={randValue}
+        onClick={() => info.setCurrentComponent(info)}
+        style={{
+          left: info.left + "px",
+          top: info.top + "px",
+          zIndex: info.z_index,
+          transform: info.rotate ? `rotate(${info.rotate}deg)` : `rotate(0deg)`,
+          opacity: info.opacity,
+        }}
+        className="absolute group hover:border-[2px] hover:border-purple-500"
+      >
+        <Element id={randValue} info={info} exId={`${randValue}img`} />
+        <div
+          id={`${randValue}img`}
+          style={{
+            width: info.width + "px",
+            height: info.height + "px",
+            borderRadius: `${info.radius}%`,
+          }}
+        >
+          <img className="w-full h-full" src={info.image} alt="image" />
+        </div>
+
         {current_component.id === info.id && (
           <div
             onClick={() => removeComponent(info.id)}

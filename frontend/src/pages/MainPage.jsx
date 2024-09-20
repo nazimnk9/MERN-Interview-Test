@@ -28,6 +28,7 @@ const MainPage = () => {
   const [font, setFont] = useState("");
   const [weight, setWeight] = useState("");
   const [text, setText] = useState("");
+  const [radius, setRadius] = useState(0);
   const [show, setShow] = useState({
     status: true,
     name: "",
@@ -106,35 +107,38 @@ const MainPage = () => {
   const rotateElement = (id, currentInfo) => {
     setCurrentComponent("");
     setCurrentComponent(currentInfo);
-    const target = document.getElementById(id)
+    const target = document.getElementById(id);
     const mouseMove = ({ movementX, movementY }) => {
-      const getStyle = window.getComputedStyle(target)
-      const transform = getStyle.transform
+      const getStyle = window.getComputedStyle(target);
+      const transform = getStyle.transform;
       //console.log(transform);
-      const values = transform.split("(")[1].split(")")[0].split(",")
+      const values = transform.split("(")[1].split(")")[0].split(",");
       //console.log(values);
-      const angle = Math.round(Math.atan2(values[1], values[0]) * (180 / Math.PI))
+      const angle = Math.round(
+        Math.atan2(values[1], values[0]) * (180 / Math.PI)
+      );
       //console.log(angle);
-      let deg = angle < 0 ? angle + 360 : angle
+      let deg = angle < 0 ? angle + 360 : angle;
       if (movementX) {
-        deg = deg + movementX
+        deg = deg + movementX;
       }
-      target.style.transform = `rotate(${deg}deg)`
-
-    }
+      target.style.transform = `rotate(${deg}deg)`;
+    };
     const mouseUp = (e) => {
       window.removeEventListener("mousemove", mouseMove);
       window.removeEventListener("mouseup", mouseUp);
-      const getStyle = window.getComputedStyle(target)
-      const transform = getStyle.transform
+      const getStyle = window.getComputedStyle(target);
+      const transform = getStyle.transform;
       //console.log(transform);
-      const values = transform.split("(")[1].split(")")[0].split(",")
+      const values = transform.split("(")[1].split(")")[0].split(",");
       //console.log(values);
-      const angle = Math.round(Math.atan2(values[1], values[0]) * (180 / Math.PI))
+      const angle = Math.round(
+        Math.atan2(values[1], values[0]) * (180 / Math.PI)
+      );
       //console.log(angle);
-      let deg = angle < 0 ? angle + 360 : angle
-      setRotate(deg)
-    }
+      let deg = angle < 0 ? angle + 360 : angle;
+      setRotate(deg);
+    };
     window.addEventListener("mousemove", mouseMove);
     window.addEventListener("mouseup", mouseUp);
   };
@@ -155,8 +159,8 @@ const MainPage = () => {
   };
 
   const opacityHandle = (e) => {
-    setOpacity(parseFloat(e.target.value))
-  }
+    setOpacity(parseFloat(e.target.value));
+  };
 
   const [components, setComponents] = useState([
     {
@@ -188,7 +192,7 @@ const MainPage = () => {
       setCurrentComponent: (a) => setCurrentComponent(a),
       moveElement,
       resizeElement,
-      rotateElement
+      rotateElement,
     };
     setComponents([...components, style]);
   };
@@ -211,13 +215,36 @@ const MainPage = () => {
       setCurrentComponent: (a) => setCurrentComponent(a),
       moveElement,
       resizeElement,
-      rotateElement
-    }
-    setWeight("")
-    setFont("")
-    setCurrentComponent(style)
-    setComponents([...components, style])
-  }
+      rotateElement,
+    };
+    setWeight("");
+    setFont("");
+    setCurrentComponent(style);
+    setComponents([...components, style]);
+  };
+
+  const add_image = (img) => {
+    const style = {
+      id: components.length + 1,
+      name: "image",
+      type: "image",
+      left: 10,
+      top: 10,
+      opacity: 1,
+      width: 200,
+      height: 150,
+      rotate,
+      z_index: 2,
+      radius: 0,
+      image: img,
+      setCurrentComponent: (a) => setCurrentComponent(a),
+      moveElement,
+      resizeElement,
+      rotateElement,
+    };
+    setCurrentComponent(style);
+    setComponents([...components, style]);
+  };
 
   //console.log(current_component);
   useEffect(() => {
@@ -251,7 +278,7 @@ const MainPage = () => {
       }
       //setComponents([...temp, components[index]])
       setComponents([...temp, components[index]]);
-      setColor("")
+      setColor("");
       setWidth("");
       setHeight("");
       setTop("");
@@ -261,7 +288,20 @@ const MainPage = () => {
       setzIndex("");
       setText("");
     }
-  }, [color, image, left, top, width, height, opacity, zIndex, padding, font, weight, text]);
+  }, [
+    color,
+    image,
+    left,
+    top,
+    width,
+    height,
+    opacity,
+    zIndex,
+    padding,
+    font,
+    weight,
+    text,
+  ]);
 
   return (
     <div className="min-w-screen h-screen bg-black">
@@ -270,8 +310,9 @@ const MainPage = () => {
         <div className="w-[120px] bg-[#181918] z-50 h-full text-white overflow-y-auto scrollbar-hide">
           <div
             onClick={() => setElements("design", "design")}
-            className={`${show.name === "design" ? "bg-[#252627]" : ""
-              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${
+              show.name === "design" ? "bg-[#252627]" : ""
+            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <BsGrid1X2 />
@@ -280,8 +321,9 @@ const MainPage = () => {
           </div>
           <div
             onClick={() => setElements("shape", "shape")}
-            className={`${show.name === "shape" ? "bg-[#252627]" : ""
-              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${
+              show.name === "shape" ? "bg-[#252627]" : ""
+            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <FaShapes />
@@ -290,8 +332,9 @@ const MainPage = () => {
           </div>
           <div
             onClick={() => setElements("image", "uploadImage")}
-            className={`${show.name === "uploadImage" ? "bg-[#252627]" : ""
-              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${
+              show.name === "uploadImage" ? "bg-[#252627]" : ""
+            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <FaCloudUploadAlt />
@@ -300,8 +343,9 @@ const MainPage = () => {
           </div>
           <div
             onClick={() => setElements("text", "text")}
-            className={`${show.name === "text" ? "bg-[#252627]" : ""
-              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${
+              show.name === "text" ? "bg-[#252627]" : ""
+            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <TfiText />
@@ -310,8 +354,9 @@ const MainPage = () => {
           </div>
           <div
             onClick={() => setElements("project", "projects")}
-            className={`${show.name === "projects" ? "bg-[#252627]" : ""
-              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${
+              show.name === "projects" ? "bg-[#252627]" : ""
+            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <BsFolder />
@@ -320,8 +365,9 @@ const MainPage = () => {
           </div>
           <div
             onClick={() => setElements("initImage", "images")}
-            className={`${show.name === "images" ? "bg-[#252627]" : ""
-              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${
+              show.name === "images" ? "bg-[#252627]" : ""
+            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <BsFillImageFill />
@@ -330,8 +376,9 @@ const MainPage = () => {
           </div>
           <div
             onClick={() => setElements("background", "background")}
-            className={`${show.name === "background" ? "bg-[#252627]" : ""
-              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
+            className={`${
+              show.name === "background" ? "bg-[#252627]" : ""
+            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-indigo-600`}
           >
             <span className="text-2xl">
               <RxTransparencyGrid />
@@ -341,8 +388,9 @@ const MainPage = () => {
         </div>
         <div className="h-full w-[calc(100%-75px)]">
           <div
-            className={`${show.status ? "p-0 -left-[350px]" : "px-8 left-[100px] py-5"
-              } bg-[#252627] h-full fixed transition-all w-[350px] z-30 duration-700`}
+            className={`${
+              show.status ? "p-0 -left-[350px]" : "px-8 left-[100px] py-5"
+            } bg-[#252627] h-full fixed transition-all w-[350px] z-30 duration-700`}
           >
             <div
               onClick={() => setShow({ name: "", status: true })}
@@ -378,7 +426,10 @@ const MainPage = () => {
             {state === "text" && (
               <div>
                 <div className="grid grid-cols-1 gap-2">
-                  <div onClick={() => add_text("text", "title")} className="bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm text-center">
+                  <div
+                    onClick={() => add_text("text", "title")}
+                    className="bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm text-center"
+                  >
                     <h2>ADD TEXT</h2>
                   </div>
                 </div>
@@ -387,7 +438,7 @@ const MainPage = () => {
             {state === "project" && <Projects />}
             {state === "initImage" && (
               <div className="h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide">
-                <Image />
+                <Image add_image={add_image} />
               </div>
             )}
             {state === "background" && (
@@ -414,10 +465,11 @@ const MainPage = () => {
           </div>
           <div className="w-full flex h-full">
             <div
-              className={`flex justify-center relative items-center h-full ${!current_component
-                ? "w-full"
-                : "w-[calc(100%-250px)] overflow-hidden"
-                }`}
+              className={`flex justify-center relative items-center h-full ${
+                !current_component
+                  ? "w-full"
+                  : "w-[calc(100%-250px)] overflow-hidden"
+              }`}
             >
               <div className="m-w-[650px] m-h-[480px] flex justify-center items-center overflow-hidden">
                 <div
@@ -443,11 +495,12 @@ const MainPage = () => {
                     <label
                       className="w-[30px] h-[30px] cursor-pointer rounded-sm"
                       style={{
-                        background: `${current_component.color &&
+                        background: `${
+                          current_component.color &&
                           current_component.color !== "#fff"
-                          ? current_component.color
-                          : "gray"
-                          }`,
+                            ? current_component.color
+                            : "gray"
+                        }`,
                       }}
                       htmlFor="color"
                     ></label>
@@ -468,42 +521,98 @@ const MainPage = () => {
                       </button>
                     </div>
                   )}
-                  {
-                    current_component.name !== "main_frame" && <div className="flex gap-6 flex-col">
+                  {current_component.name !== "main_frame" && (
+                    <div className="flex gap-6 flex-col">
                       <div className="flex gap-1 justify-start items-start">
                         <span className="text-md w-[70px]">Opacity: </span>
-                        <input onChange={opacityHandle} className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md" type="number" step={0.1} min={0.1} max={1} value={current_component.opacity} />
+                        <input
+                          onChange={opacityHandle}
+                          className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
+                          type="number"
+                          step={0.1}
+                          min={0.1}
+                          max={1}
+                          value={current_component.opacity}
+                        />
                       </div>
                       <div className="flex gap-1 justify-start items-start">
                         <span className="text-md w-[70px]">Z-index: </span>
-                        <input onChange={(e) => setzIndex(parseInt(e.target.value))} className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md" type="number" step={1} value={current_component.z_index} />
+                        <input
+                          onChange={(e) => setzIndex(parseInt(e.target.value))}
+                          className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
+                          type="number"
+                          step={1}
+                          value={current_component.z_index}
+                        />
                       </div>
-                      {
-                        current_component.name === "text" && <>
+                      {current_component.name === "text" && (
+                        <>
                           <div className="flex gap-1 justify-start items-start">
                             <span className="text-md w-[70px]">Padding: </span>
-                            <input onChange={(e) => setPadding(parseInt(e.target.value))} className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md" type="number" step={1} value={current_component.padding} />
+                            <input
+                              onChange={(e) =>
+                                setPadding(parseInt(e.target.value))
+                              }
+                              className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
+                              type="number"
+                              step={1}
+                              value={current_component.padding}
+                            />
                           </div>
                           <div className="flex gap-1 justify-start items-start">
-                            <span className="text-md w-[72px]">Font Size: </span>
-                            <input onChange={(e) => setFont(parseInt(e.target.value))} className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md" type="number" step={1} value={current_component.font} />
+                            <span className="text-md w-[72px]">
+                              Font Size:{" "}
+                            </span>
+                            <input
+                              onChange={(e) =>
+                                setFont(parseInt(e.target.value))
+                              }
+                              className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
+                              type="number"
+                              step={1}
+                              value={current_component.font}
+                            />
                           </div>
                           <div className="flex gap-1 justify-start items-start">
-                            <span className="text-md w-[72px]">Font Weight: </span>
-                            <input onChange={(e) => setWeight(parseInt(e.target.value))} className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md" type="number" step={100} min={100} max={900} value={current_component.weight} />
+                            <span className="text-md w-[72px]">
+                              Font Weight:{" "}
+                            </span>
+                            <input
+                              onChange={(e) =>
+                                setWeight(parseInt(e.target.value))
+                              }
+                              className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
+                              type="number"
+                              step={100}
+                              min={100}
+                              max={900}
+                              value={current_component.weight}
+                            />
                           </div>
 
                           <div className="flex gap-2 flex-col justify-start items-start">
-                            <input onChange={(e) => setCurrentComponent({
-                              ...current_component,
-                              title: e.target.value
-                            })} className="border border-gray-700 bg-transparent outline-none p-2 rounded-md" type="text" value={current_component.title} />
-                            <button onClick={() => setText(current_component.title)} className="px-4 py-2 bg-blue-500 text-xs text-white rounded-sm">Add</button>
+                            <input
+                              onChange={(e) =>
+                                setCurrentComponent({
+                                  ...current_component,
+                                  title: e.target.value,
+                                })
+                              }
+                              className="border border-gray-700 bg-transparent outline-none p-2 rounded-md"
+                              type="text"
+                              value={current_component.title}
+                            />
+                            <button
+                              onClick={() => setText(current_component.title)}
+                              className="px-4 py-2 bg-blue-500 text-xs text-white rounded-sm"
+                            >
+                              Add
+                            </button>
                           </div>
                         </>
-                      }
+                      )}
                     </div>
-                  }
+                  )}
                 </div>
               </div>
             )}
