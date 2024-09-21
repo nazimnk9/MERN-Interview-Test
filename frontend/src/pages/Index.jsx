@@ -2,15 +2,34 @@ import React, { useState } from 'react'
 import { IoMdClose } from "react-icons/io"
 import { AiOutlineGoogle } from "react-icons/ai"
 import { FaFacebookF } from "react-icons/fa"
+import api from '../utils/api'
 
 const index = () => {
     const [type, setType] = useState('')
     const [show, setShow] = useState(false)
+    const [loader, setLoader] = useState(false)
     const [state, setState] = useState({
         name: "",
         email: "",
         password: ""
     })
+    const inputHandle = (e)=>{
+        setState({
+            ...state,
+            [e.target.name]: e.target.value
+        })
+    }
+    const user_register = async(e)=>{
+        e.preventDefault()
+        try{
+            setLoader(true)
+            const {data} = await api.post('/api/user-register',state)
+            setLoader(false)
+        }catch(error){
+            setLoader(false)
+        }
+        
+    }
     return (
         <div className='bg-[#1b1818] min-h-screen w-full'>
             <div className={`w-screen ${show ? 'visible opacity-100' : 'invisible opacity-30'} transition-all duration-500 h-screen fixed bg-[#252627ad] flex justify-center items-center`}>
@@ -50,18 +69,18 @@ const index = () => {
                         </form>
                     }
                     {
-                        type === "signup" && <form>
+                        type === "signup" && <form onSubmit={user_register}>
                             <div className='flex flex-col gap-3 mb-3 text-black'>
                                 <label htmlFor="name">Name</label>
-                                <input type="name" name='name' id='name' placeholder='Enter name' value={state.name} className='px-3 py-2 rounded-md border outline-none border-[#030315] focus:border-green-500 bg-transparent' />
+                                <input onChange={inputHandle} type="name" name='name' id='name' placeholder='Enter name' value={state.name} className='px-3 py-2 rounded-md border outline-none border-[#030315] focus:border-green-500 bg-transparent' />
                             </div>
                             <div className='flex flex-col gap-3 mb-3 text-black'>
                                 <label htmlFor="email">Email</label>
-                                <input type="email" name='email' id='email' placeholder='Enter email' value={state.email} className='px-3 py-2 rounded-md border outline-none border-[#030315] focus:border-green-500 bg-transparent' />
+                                <input onChange={inputHandle} type="email" name='email' id='email' placeholder='Enter email' value={state.email} className='px-3 py-2 rounded-md border outline-none border-[#030315] focus:border-green-500 bg-transparent' />
                             </div>
                             <div className='flex flex-col gap-3 mb-3 text-black'>
                                 <label htmlFor="password">Password</label>
-                                <input type="password" name='password' id='password' placeholder='Enter password' value={state.password} className='px-3 py-2 rounded-md border outline-none border-[#030315] focus:border-green-500 bg-transparent' />
+                                <input onChange={inputHandle} type="password" name='password' id='password' placeholder='Enter password' value={state.password} className='px-3 py-2 rounded-md border outline-none border-[#030315] focus:border-green-500 bg-transparent' />
                             </div>
                             <div>
                                 <button className='px-3 py-2 rounded-md bg-black text-white w-full outline-none hover:bg-green-500'>Sign In</button>
