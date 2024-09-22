@@ -7,7 +7,7 @@ const token = localStorage.getItem("whiteboard_token")
 const api = axios.create({
     baseURL: local_api,
     headers: {
-        "Authorization" : token ? `Bearer ${token}` : ""
+        "Authorization": token ? `Bearer ${token}` : ""
     },
     withCredentials: true
 })
