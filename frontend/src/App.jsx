@@ -9,13 +9,14 @@ import Projects from "./components/Projects";
 import Templates from "./components/Templates";
 import CreateDesign from "./components/CreateDesign";
 import MainPage from "./pages/MainPage";
+import { token_decode } from "./utils/index";
 
-const token = localStorage.getItem("whiteboard_token")
+const userInfo = token_decode(localStorage.getItem("whiteboard_token"))
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Index />,
+    element: userInfo ? <Layout /> : <Index />,
     children: [
       {
         path: '/',
