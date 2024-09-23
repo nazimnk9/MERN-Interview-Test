@@ -9,6 +9,9 @@ import Projects from "./components/Projects";
 import Templates from "./components/Templates";
 import CreateDesign from "./components/CreateDesign";
 import MainPage from "./pages/MainPage";
+
+const token = localStorage.getItem("whiteboard_token")
+
 const router = createBrowserRouter([
   {
     path: "/",

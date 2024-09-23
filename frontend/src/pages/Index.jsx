@@ -41,6 +41,27 @@ const index = () => {
         }
 
     }
+    const user_login = async (e) => {
+        e.preventDefault()
+        try {
+            setLoader(true)
+            const { data } = await api.post('/api/user-login', state)
+            setLoader(false)
+            localStorage.setItem('whiteboard_token', data.token)
+            setState({
+                email: "",
+                password: ""
+            })
+            window.location.href = '/'
+            //console.log(data);
+
+        } catch (error) {
+            setLoader(false)
+            console.log(error.response);
+
+        }
+
+    }
     return (
         <div className='bg-[#1b1818] min-h-screen w-full'>
             <div className={`w-screen ${show ? 'visible opacity-100' : 'invisible opacity-30'} transition-all duration-500 h-screen fixed bg-[#252627ad] flex justify-center items-center`}>
@@ -48,17 +69,17 @@ const index = () => {
                     <div onClick={() => setShow(false)} className='absolute right-4 top-4 text-xl cursor-pointer text-black'><IoMdClose /></div>
                     <h2 className='text-black pb-4 text-center text-xl font-bold'>Sign In and Sign Up</h2>
                     {
-                        type === "signin" && <form>
+                        type === "signin" && <form onSubmit={user_login}>
                             <div className='flex flex-col gap-3 mb-3 text-black'>
                                 <label htmlFor="email">Email</label>
-                                <input type="email" name='email' id='email' placeholder='Enter email' value={state.email} className='px-3 py-2 rounded-md border outline-none border-[#030315] focus:border-green-500 bg-transparent' />
+                                <input onChange={inputHandle} type="email" name='email' id='email' placeholder='Enter email' value={state.email} className='px-3 py-2 rounded-md border outline-none border-[#030315] focus:border-green-500 bg-transparent' />
                             </div>
                             <div className='flex flex-col gap-3 mb-3 text-black'>
                                 <label htmlFor="password">Password</label>
-                                <input type="password" name='password' id='password' placeholder='Enter password' value={state.password} className='px-3 py-2 rounded-md border outline-none border-[#030315] focus:border-green-500 bg-transparent' />
+                                <input onChange={inputHandle} type="password" name='password' id='password' placeholder='Enter password' value={state.password} className='px-3 py-2 rounded-md border outline-none border-[#030315] focus:border-green-500 bg-transparent' />
                             </div>
                             <div>
-                                <button className='px-3 py-2 rounded-md bg-black text-white w-full outline-none hover:bg-green-500'>Sign In</button>
+                                <button disabled={loader} className='px-3 py-2 rounded-md bg-black text-white w-full outline-none hover:bg-green-500'>{loader ? "loading.." : "Sign In"}</button>
                             </div>
                             <div className='flex py-4 justify-between items-center px-3'>
                                 <div className='w-[45%] h-[1px] bg-[#434449]'></div>
